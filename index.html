@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIST PEMBELIAN X-SENSI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #0d1527 0%, #03050a 100%);
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            padding: 20px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Container Utama - Glassmorphism Cyberpunk */
+        .cyber-container {
+            width: 100%;
+            max-width: 415px;
+            background: rgba(6, 11, 23, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 35px;
+            box-shadow: 0 0 50px rgba(0, 255, 204, 0.1), inset 0 0 20px rgba(0, 255, 204, 0.05);
+            padding: 35px 20px;
+            overflow-y: auto;
+            max-height: 92vh;
+        }
+
+        .cyber-container::-webkit-scrollbar { width: 4px; }
+        .cyber-container::-webkit-scrollbar-thumb { background: #00ffcc; border-radius: 10px; }
+
+        /* HEADER ANIMATION (PULSING LOGO) */
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo-box {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 15px auto;
+            background: linear-gradient(135deg, #00ffcc, #0077ff);
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: #03050a;
+            animation: neonPulse 2s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            0% { box-shadow: 0 0 15px rgba(0, 255, 204, 0.4); transform: scale(1); }
+            100% { box-shadow: 0 0 30px rgba(0, 255, 204, 0.8), 0 0 10px #0077ff; transform: scale(1.03); }
+        }
+
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffffff 30%, #00ffcc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sub-title {
+            font-size: 12px;
+            color: #5c7290;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        /* Section Global Title */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: #00ffcc;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 30px 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            margin-left: 15px;
+            height: 1px;
+            background: linear-gradient(to right, rgba(0, 255, 204, 0.5), transparent);
+        }
+
+        /* INDIVIDUAL CARD HARIAN (MEMBER ECERAN) */
+        .member-card-vertical {
+            background: linear-gradient(135deg, rgba(16, 26, 48, 0.6), rgba(8, 13, 26, 0.6));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 18px 22px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card-vertical::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: #0077ff;
+            transition: 0.3s;
+        }
+
+        /* Hover & Interactivity Animasi */
+        .member-card-vertical:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 255, 204, 0.4);
+            background: linear-gradient(135deg, rgba(20, 35, 66, 0.8), rgba(8, 13, 26, 0.9));
+            box-shadow: 0 10px 25px rgba(0, 255, 204, 0.1);
+        }
+
+        .member-card-vertical:hover::before {
+            background: #00ffcc;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+
+        .info-left .duration {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .info-left .desc {
+            font-size: 13px;
+            color: #6c82a3;
+            margin-top: 2px;
+        }
+
+        .price-right {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+
+        /* PARTNER KEMITRAAN (RESELLER & OWNER) */
+        .partner-card {
+            background: rgba(11, 19, 36, 0.7);
+            border: 1px solid rgba(0, 119, 255, 0.3);
+            border-radius: 24px;
+            padding: 24px 20px;
+            margin-bottom: 18px;
+            transition: 0.3s;
+        }
+
+        .partner-card:hover {
+            transform: scale(1.02);
+        }
+
+        .partner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .badge-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 12px;
+            letter-spacing: 1px;
+        }
+
+        .badge-reseller { background: rgba(0, 119, 255, 0.15); color: #0077ff; border: 1px solid rgba(0, 119, 255, 0.4); }
+        
+        /* OWNER ANIMATED CARD - GLOW GOLD EFFECT */
+        .owner-special-card {
+            background: rgba(19, 14, 7, 0.8);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+            box-shadow: 0 0 25px rgba(255, 170, 0, 0.05);
+            position: relative;
+        }
+
+        .owner-special-card:hover {
+            box-shadow: 0 0 30px rgba(255, 170, 0, 0.2);
+            border-color: #ffaa00;
+        }
+
+        .badge-owner { 
+            background: rgba(255, 170, 0, 0.15); 
+            color: #ffaa00; 
+            border: 1px solid rgba(255, 170, 0, 0.5);
+            animation: pulseGold 1.5s infinite alternate;
+        }
+
+        @keyframes pulseGold {
+            0% { box-shadow: 0 0 5px rgba(255, 170, 0, 0.2); }
+            100% { box-shadow: 0 0 15px rgba(255, 170, 0, 0.6); }
+        }
+
+        .p-price { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; }
+
+        /* Benefit List Styling */
+        .b-list { list-style: none; }
+        .b-item { font-size: 13.5px; color: #a1b5d0; margin-bottom: 10px; display: flex; align-items: flex-start; }
+        .b-item:last-child { margin-bottom: 0; }
+        .b-item::before { content: '◈'; color: #00ffcc; margin-right: 10px; font-size: 12px; }
+        .owner-special-card .b-item::before { content: '👑'; color: #ffaa00; }
+
+        /* BUTTON ACTION FUTURISTIC */
+        .cyber-btn {
+            display: block;
+            text-align: center;
+            width: 100%;
+            padding: 18px;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #00ffcc 0%, #0077ff 100%);
+            border: none;
+            border-radius: 18px;
+            color: #03050a;
+            font-weight: 900;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.3);
+            transition: 0.3s;
+        }
+
+        .cyber-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 255, 204, 0.6);
+            letter-spacing: 3px;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 11px;
+            color: #43546f;
+            margin-top: 25px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cyber-container">
+
+    <!-- BRANDING SECTION -->
+    <div class="header">
+        <div class="logo-box">X</div>
+        <h1 class="main-title">X SENSI SOFTWARE</h1>
+        <p class="sub-title">High Tier Device Optimizer</p>
+    </div>
+
+    <!-- SEKSI 1: LIST CARD HARIAN MASING-MASING SECARA VERTIKAL -->
+    <div class="section-title">List Durasi Member</div>
+
+    <!-- Card 1 Hari -->
+    <div class="member-card-vertical" onclick="location.href='https://wa.me/6285764410376?text=Halo%20Bos%20saya%20mau%20beli%20X%20Sensi%20Paket%201%20Hari'">
+        <div class="info-left">
+            <div class="duration">1 DAY ACCESS</div>
+            <div class="desc">Trial pas buat testing performa</div>
+        </div>
+        <div class="price-right">5K</div>
+    </div>
+
+    <!-- Card 7 Hari -->
+    <div class="member-card-vertical" onclick="location.href='https://wa.me/6285764410376?text=Halo%20Bos%20saya%20mau%20beli%20X%20Sensi%20Paket%207%20Hari'">
+        <div class="info-left">
+            <div class="duration">7 DAYS ACCESS</div>
+            <div class="desc">Paket mingguan push rank lancar</div>
+        </div>
+        <div class="price-right">10K</div>
+    </div>
+
+    <!-- Card 15 Hari -->
+    <div class="member-card-vertical" onclick="location.href='https://wa.me/6285764410376?text=Halo%20Bos%20saya%20mau%20beli%20X%20Sensi%20Paket%2015%20Hari'">
+        <div class="info-left">
+            <div class="duration">15 DAYS ACCESS</div>
+            <div class="desc">Setengah bulan jaminan cheat anti delay</div>
+        </div>
+        <div class="price-right">15K</div>
+    </div>
+
+    <!-- Card 30 Hari -->
+    <div class="member-card-vertical" onclick="location.href='https://wa.me/6285764410376?text=Halo%20Bos%20saya%20mau%20beli%20X%20Sensi%20Paket%2030%20Hari'">
+        <div class="info-left">
+            <div class="duration">30 DAYS ACCESS</div>
+            <div class="desc">Pilihan terbaik untuk bulanan eceran</div>
+        </div>
+        <div class="price-right">20K</div>
+    </div>
+
+
+    <!-- SEKSI 2: KEMITRAAN BISNIS -->
+    <div class="section-title">Kemitraan Lisensi</div>
+
+    <!-- KARTU RESELLER -->
+    <div class="partner-card" onclick="location.href='https://wa.me/6285764410376?text=Halo%20Bos%20saya%20tertarik%20Daftar%20Reseller%20X%20Sensi'">
+        <div class="partner-header">
+            <span class="badge-tag badge-reseller">RESELLER APP</span>
+            <div class="p-price" style="color: #0077ff;">25K <span style="font-size:12px; color:#5c7290;">/ 30 Hari</span></div>
+        </div>
+        <ul class="b-list">
+            <li class="b-item">Akses Panel: <b>Bisa menambah/daftarkan user baru</b>.</li>
+            <li class="b-item">Mendapatkan lisensi komersial jualan komplit X Sensi.</li>
+            <li class="b-item">Keuntungan mutlak milik reseller tanpa bagi hasil.</li>
+        </ul>
+    </div>
+
+    <!-- KARTU OWNER (ANIMASI GLOWING GOLD) -->
+    <div class="partner-card owner-special-card" onclick="location.href='https://wa.me/6285764410376?text=Halo%20Developer Yanz%20saya%20mau%20ambil%20Akses%20Owner%20Permanen%20X%20Sensi%20Dengan%20Harga%2045K'">
+        <div class="partner-header">
+            <span class="badge-tag badge-owner">OWNER PERMANENT</span>
+            <div class="p-price" style="color: #ffaa00;">45K <span style="font-size:12px; color:#ffaa00;">/ LIFETIME</span></div>
+        </div>
+        <ul class="b-list">
+            <li class="b-item" style="color: #fff; font-weight: bold;">Bisa bikin & build APK sendiri (Brand Sendiri).</li>
+            <li class="b-item">Mendapatkan supply <b>Bahan Mentah Full X Sensi</b>.</li>
+            <li class="b-item">Akses unlmited bebas jualan key lisensi sepuasnya.</li>
+            <li class="b-item">Hak milik kepemilikan panel tertinggi selamanya.</li>
+        </ul>
+    </div>
+
+    <!-- TOMBOL HUBUNGI UTAMA -->
+    <a href="https://wa.me/6285764410376?text=Halo%20Admin%20saya%20mau%20bertanya%20tentang%20X%20Sensi" class="cyber-btn">HUBUNGI DEVELOPER</a>
+
+    <div class="footer-text">▪ TERMINAL OPTIMIZER ARCHITECTURE SYSTEM ▪</div>
+
+</div>
+
+</body>
+</html>
